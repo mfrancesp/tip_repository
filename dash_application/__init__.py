@@ -98,35 +98,47 @@ organization_no=[]
 df_monthsla={'202101':0,'202102':0,'202103':0,'202104':0 }
 df_monthslano={'202101':0,'202102':0,'202103':0,'202104':0 }
 
+dfyes={}
+dfno={}
+for element in df7:
+    dfyes[element['assigned_organization']]=0
+    dfno[element['assigned_organization']]=0
+
 for element in df7:
     if element['resolution_time'] < 4:
         sla_yes.append(element['resolution_time'])
         month_yes.append(element['month'])
         organization_yes.append(element['assigned_organization'])
         df_monthsla[element['month']]=df_monthsla[element['month']]+1
+        dfyes[element['assigned_organization']]= dfyes[element['assigned_organization']] +1
 
     else:
         sla_no.append(element['resolution_time'])
         month_no.append(element['month'])
         organization_no.append(element['assigned_organization'])
         df_monthslano[element['month']]=df_monthsla[element['month']]+1
+        dfno[element['assigned_organization']]= dfno[element['assigned_organization']] +1
 
 df_slayes = pd.DataFrame({'Months': month_yes, 'Data': sla_yes, 'Organization': organization_yes})
 df_slano = pd.DataFrame({'Months': month_no, 'Data': sla_no, 'Organization': organization_no})
 
-df={}
-for element in df7:
-    df['assigned_organization']=0
 
-#
+
 keys=df_monthsla.keys()
 values=df_monthsla.values()
-values_org=df.values()
+keys_org=dfyes.keys()
+values_org=dfyes.values()
+
 slas = pd.DataFrame({'Months': keys, 'Data': values})
+slasorg=pd.DataFrame({'Organization': keys_org, 'Data': values_org})
 
 keys2=df_monthslano.keys()
 values2=df_monthslano.values()
+keys_orgno=dfno.keys()
+values_orgno=dfno.values()
 slasno = pd.DataFrame({'Months': keys2, 'Data': values2})
+slasorgno=pd.DataFrame({'Organization': keys_orgno, 'Data': values_orgno})
+print(values_orgno)
 
 
 
@@ -210,10 +222,16 @@ def sla_content():
                 figure=px.bar(slas, x="Months", y="Data", title="SLA meeting the requirements by month")),
         dcc.Graph(
                 id="Priority by share",
-                figure=px.bar(slasno, x="Months", y="Data", title="SLA NOT meeting the requirements by month"))
+                figure=px.bar(slasno, x="Months", y="Data", title="SLA NOT meeting the requirements by month")),
+        dcc.Graph(
+                id="Priority by share",
+                figure=px.bar(slasorg, x="Organization", y="Data", title="SLA NOT meeting the requirements by Organization assigned")),
+        dcc.Graph(
+                id="Priority by share",
+                figure=px.bar(slasorgno, x="Organization", y="Data", title="SLA NOT meeting the requirements by Organization assigned"))
                 
         
-    ]
+        ]
         )
 
 
@@ -228,6 +246,7 @@ def create_dash_application(flask_app):
     html.Button('Raised incidents overview', id='btnoverview', n_clicks=0),
     html.Button('Closed incidents overview', id='btnclosed', n_clicks=0),
     html.Button('SLA', id='btnsla', n_clicks=0),
+    html.Button('Log out', id='btnlog',n_clicks=0),
     html.Div(id='container-button')
     ])])
     
@@ -235,15 +254,18 @@ def create_dash_application(flask_app):
         Output('container-button','children'),
         Input('btnoverview','n_clicks'),
         Input('btnclosed','n_clicks'),
-        Input('btnsla', 'n_clicks')
+        Input('btnsla', 'n_clicks'),
+        Input('btnlog', 'n_clicks')
         )
-    def showing(btn1,btn2,btn3):
+    def showing(btn1,btn2,btn3,btn4):
         changed_id = [p['prop_id'] for p in callback_context.triggered][0]
         
         if 'btnclosed' in changed_id:
             return closed_content()
         elif 'btnsla' in changed_id:
             return sla_content()
+        elif 'btnlog' in changed_id:
+            return html.A(children="Logout", href='/logout')
         else:
             return overview_content()
     

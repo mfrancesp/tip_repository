@@ -18,6 +18,10 @@ body{
     display: flex;
     flex-direction:column;
     align-items: center;
+    margin:2%;
+}
+.formfields form div{
+    margin:3%;
 }
 .top-header {
     display: flex;
@@ -54,4 +58,7 @@ body{
 }
 .textbottom{
     margin-bottom: 10%;
+}
+.emailbox{
+    padding:2%;
 }
