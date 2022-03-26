@@ -56,7 +56,6 @@ def create_dash_application(flask_app):
     dash_app.layout = html.Div([
         html.Div([
         html.H2("Iberia KPIs"),
-        html.Img(src="/iberialogo.png")
         ], className="banner"),
     html.Div([
     html.Button('Overview', id='btnoverview', n_clicks=0),
