@@ -85,10 +85,45 @@ for element in df5:
 response = urlopen("https://g986b1d252d1c63-db2022.adb.eu-frankfurt-1.oraclecloudapps.com/ords/tip/kpi24/incvol24/")
 df6 = json.loads(response.read())['items']
     
-#-----------------------KPI 6 - Number of incidents closed  by assigned orgnaization ----------------------
-#response = urlopen("https://g986b1d252d1c63-db2022.adb.eu-frankfurt-1.oraclecloudapps.com/ords/tip/kpisl/incvolsl/")
-#df6 = json.loads(response.read())['items']
-    
+#-----------------------KPI 7 - SLA ----------------------
+response = urlopen("https://g986b1d252d1c63-db2022.adb.eu-frankfurt-1.oraclecloudapps.com/ords/tip/kpisl/incvolsl/")
+df7 = json.loads(response.read())['items']
+
+sla_no=[]
+sla_yes=[]
+month_yes=[]
+month_no=[]
+organization_yes=[]
+organization_no=[]
+df_monthsla={'202101':0,'202102':0,'202103':0,'202104':0 }
+df_monthslano={'202101':0,'202102':0,'202103':0,'202104':0 }
+
+for element in df7:
+    if element['resolution_time'] < 4:
+        sla_yes.append(element['resolution_time'])
+        month_yes.append(element['month'])
+        organization_yes.append(element['assigned_organization'])
+        df_monthsla[element['month']]=df_monthsla[element['month']]+1
+
+    else:
+        sla_no.append(element['resolution_time'])
+        month_no.append(element['month'])
+        organization_no.append(element['assigned_organization'])
+        df_monthslano[element['month']]=df_monthsla[element['month']]+1
+
+df_slayes = pd.DataFrame({'Months': month_yes, 'Data': sla_yes, 'Organization': organization_yes})
+df_slano = pd.DataFrame({'Months': month_no, 'Data': sla_no, 'Organization': organization_no})
+
+keys=df_monthsla.keys()
+values=df_monthsla.values()
+values_org=df_monthsla.values()
+slas = pd.DataFrame({'Months': keys, 'Data': values})
+
+keys2=df_monthslano.keys()
+values2=df_monthslano.values()
+slasno = pd.DataFrame({'Months': keys2, 'Data': values2})
+
+
 
  #--------------------------------------------------------------------------------------------
 
@@ -163,7 +198,18 @@ def closed_content():
     )
 
 def sla_content():
-    return html.Div(children=html.H1(children="SLA"))
+    return html.Div(children=[
+        html.H1(children="SLA"),
+         dcc.Graph(
+                id="Priority by share",
+                figure=px.bar(slas, x="Months", y="Data", title="SLA meeting the requirements by month")),
+        dcc.Graph(
+                id="Priority by share",
+                figure=px.bar(slasno, x="Months", y="Data", title="SLA NOT meeting the requirements by month"))
+                
+        
+    ]
+        )
 
 
 
@@ -188,14 +234,13 @@ def create_dash_application(flask_app):
         )
     def showing(btn1,btn2,btn3):
         changed_id = [p['prop_id'] for p in callback_context.triggered][0]
-        if 'btnoverview' in changed_id:
-            return overview_content()
-        elif 'btnclosed' in changed_id:
+        
+        if 'btnclosed' in changed_id:
             return closed_content()
         elif 'btnsla' in changed_id:
-            return html.Div(children="vaale")
+            return sla_content()
         else:
-            return html.Div(children="holaaa")
+            return overview_content()
     
 
     for view_function in dash_app.server.view_functions:
