@@ -52,10 +52,7 @@ class RegisterForm(FlaskForm):
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-    if current_user.is_authenticated == True:
-        return redirect(url_for("/dash/"))
-    else:
-        return render_template("login.html")
+    return redirect(url_for("login"))
 
 
 
@@ -93,7 +90,7 @@ def register():
 @app.route("/logout")
 def logout():
     logout_user()
-    return redirect(url_for("index"))
+    return redirect(url_for("login"))
 
 
 if __name__ == "__main__":
