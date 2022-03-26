@@ -1,0 +1,8 @@
+
+.container{
+    display:flex;
+    align-content: column;
+    align-items: center;
+    justify-content: center;    
+}
+

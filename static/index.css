@@ -1,0 +1,30 @@
+.top-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    background-color: #C11623;
+    padding-left: 2%;
+    padding-right: 2%;
+    
+}
+
+.tittle {
+    color: white;
+    align-content: flex-start;
+
+}
+
+.logo-image {
+    align-content: flex-end;
+}
+
+.container{
+    display:flex;
+    align-content: column;
+    align-items: center;
+    justify-content: center;    
+}

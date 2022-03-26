@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<header>
+    
+    <link href="{{ url_for('static', filename='index.css') }}" rel="stylesheet" >
+</header>
+<body>
+
+    <div className="iberia-header">
+                <div className="top-header">
+                    <div className="tittle">
+                        <h1>Iberia</h1>
+                    </div>
+                    <div className="logo-image">
+                        <p>logo</p>
+                    </div>
+                    
+                </div>
+               
+                <div className="iberia-bottom">
+                    
+                </div>
+      </div>
+    <div className="index-page">
+        <div className="image"> 
+            
+        
+        </div>
+        <div className="options">
+            <div>
+                You are not registered yet
+            
+            </div>
+            
+            <div>
+                <ul>
+                    <li><a href="{{ url_for('login') }}">Login</a></li>
+                    <li><a href="{{ url_for('register') }}">Register</a></li>
+                </ul>
+            
+            </div>
+            
+            <div>
+                You are not registered yet
+            
+            </div>
+        </div>
+    </div>
+
+</body>
+
+
+</html>

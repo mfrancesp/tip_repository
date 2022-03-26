@@ -1,0 +1,40 @@
+
+
+{% import "bootstrap/wtf.html" as wtf %}
+<html>
+<head> 
+    <link rel="stylesheet" href = "{{url_for('static', filename = 'login.css')}}">
+</head>
+<body>
+  
+        <div class='top-header'>
+            <div class='tittlename'>Iberia</div>
+            
+            <div class='logoimage'>
+                <img class="logo-image" src="static/iberialogo.png">
+            </div>
+            
+        </div>
+    
+
+    <div class= "container" role="main" style="margin-top: 75px">
+        <div class="texttop">Welcome, please log in:</div>
+        <div class="formfields">
+            <form action="{{ url_for('login') }}" method="POST">
+                {{ form.hidden_tag() }}
+                <div class= "emailbox">
+                    {{ wtf.form_field(form.email) }}
+                </div>
+                <div class="passwordbox">
+                    {{ wtf.form_field(form.password) }}
+                </div>
+                <input type="submit" value="login">
+            </form>
+        <div>
+            <div class="textbotton">You are not register yet?<a href="{{ url_for('register') }}">Register</a></div>
+        </div>
+        
+    </div>
+
+</body>
+</html>
