@@ -13,14 +13,14 @@ from datetime import datetime
 from dash import Dash, html, Input, Output, callback_context, State
 from dash.exceptions import PreventUpdate
 
-options=["January", "February", "April", "March"]
+options=["All", "January", "February", "April", "March"]
 
 
 def overview_content():
     return html.Div(
         children=[
             html.H1(children="Overview"),
-            html.Div(children=html.H1(children="KPI1")),
+            html.Div(html.H4("Number of incidents by priority")),
             dcc.Graph(
                 id="kpi1-graph",
                 figure=px.bar(df1, x="month", y="incidences_number", color="priority", barmode="group"),
@@ -52,7 +52,7 @@ def sla_content():
 
 
 def create_dash_application(flask_app):
-    dash_app = dash.Dash(server=flask_app, name="dash", url_base_pathname="/dash/")
+    dash_app = dash.Dash(server=flask_app, name="__name__", url_base_pathname="/dash/")
     dash_app.layout = html.Div([
         html.Div([
         html.H2("Iberia KPIs"),
@@ -61,7 +61,6 @@ def create_dash_application(flask_app):
     html.Div([
     html.Button('Overview', id='btnoverview', n_clicks=0),
     html.Button('SLA', id='btnsla', n_clicks=0),
-    dcc.Dropdown(options, id='multi-variable',multi=True ),
     html.Div(id='container-button')
     ])])
     
@@ -78,25 +77,6 @@ def create_dash_application(flask_app):
             return html.Div(children="vaale")
         else:
             return html.Div(children="holaaa")
-            
-    @dash_app.callback(
-        Output("multi-variable", "options"),
-        Input("multi-variable", "search_value"),
-        State("multi-variable", "value")
-    )
-    def update_multi_options(search_value, value):
-        if not search_value:
-            raise PreventUpdate
-        # Make sure that the set values are in the option list, else they will disappear
-        # from the shown select list, but still part of the `value`.
-        variab= [
-            o for o in options if search_value in o["label"] or o["value"] in (value or [])
-        ]
-        return "don"
-
-
-
-    
     
 
     for view_function in dash_app.server.view_functions:
