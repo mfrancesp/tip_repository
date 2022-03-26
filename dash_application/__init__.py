@@ -216,7 +216,7 @@ def closed_content():
 
 def sla_content():
     return html.Div(children=[
-        html.H1(children="SLA"),
+        html.H1(children="SLA Critic Priority "),
          dcc.Graph(
                 id="Priority by share",
                 figure=px.bar(slas, x="Months", y="Data", title="SLA meeting the requirements by month")),
@@ -225,7 +225,7 @@ def sla_content():
                 figure=px.bar(slasno, x="Months", y="Data", title="SLA NOT meeting the requirements by month")),
         dcc.Graph(
                 id="Priority by share",
-                figure=px.bar(slasorg, x="Organization", y="Data", title="SLA NOT meeting the requirements by Organization assigned")),
+                figure=px.bar(slasorg, x="Organization", y="Data", title="SLA meeting the requirements by Organization assigned")),
         dcc.Graph(
                 id="Priority by share",
                 figure=px.bar(slasorgno, x="Organization", y="Data", title="SLA NOT meeting the requirements by Organization assigned"))
