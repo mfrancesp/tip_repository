@@ -114,9 +114,14 @@ for element in df7:
 df_slayes = pd.DataFrame({'Months': month_yes, 'Data': sla_yes, 'Organization': organization_yes})
 df_slano = pd.DataFrame({'Months': month_no, 'Data': sla_no, 'Organization': organization_no})
 
+df={}
+for element in df7:
+    df['assigned_organization']=0
+
+#
 keys=df_monthsla.keys()
 values=df_monthsla.values()
-values_org=df_monthsla.values()
+values_org=df.values()
 slas = pd.DataFrame({'Months': keys, 'Data': values})
 
 keys2=df_monthslano.keys()
