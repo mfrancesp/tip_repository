@@ -6,14 +6,26 @@ body{
     display:flex;
     flex-direction:row;
     justify-content: space-between;
-    align-items: center;
+    text-align: center;
 
 }
 
 .tittleboxes{
-    border:2px;
-    border-color:#A8151C;
-    border-radius: 3%;
-
-
+    border:3px solid #A8151C;
+    padding: 2%;
+    background-color:rgb(60, 209, 134);
+    margin-bottom: 3%;
 }
+
+button {
+    background-color: #A8151C; 
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 1% ;
+  }
+
