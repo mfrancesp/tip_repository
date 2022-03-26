@@ -7,6 +7,10 @@ FROM python:3
 
 # Allow statements and log messages to immediately appear in the Knative logs
 ENV PYTHONUNBUFFERED True
+ENV PORT=8000
+ENV HOST=0.0.0.0
+ENV PYTHONUNBUFFERED True
+EXPOSE 80
 
 # Copy local code to the container image.
 ENV APP_HOME /app
